@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>History - Sooner Racing Team</title>
+  
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      background: #000;
+      font-family: 'Orbitron', sans-serif;
+      color: #fff;
+    }
+
+    video {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      z-index: -1;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+      filter: brightness(0.4) contrast(1.1);
+    }
+
+    .navbar {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      z-index: 100;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 10px 20px;
+      border-radius: 8px;
+      backdrop-filter: blur(10px);
+    }
+
+    .navbar-logo {
+      height: 30px;
+      width: auto;
+      margin-right: 10px;
+    }
+
+    .navbar a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+
+    .navbar a:hover {
+      color: #e60000;
+    }
+
+    .navbar a.active {
+      color: #e60000;
+      font-weight: bold;
+      text-shadow:
+        0 0 8px rgba(230, 0, 0, 0.8),
+        0 0 16px rgba(230, 0, 0, 0.4);
+    }
+
+    .navbar .donate {
+      color: #e60000;
+      font-weight: bold;
+    }
+
+    .content-wrapper {
+      position: relative;
+      z-index: 1;
+      padding: 120px 20px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hero-section {
+      text-align: center;
+      margin-bottom: 60px;
+      padding: 2rem;
+      border: 2px solid rgba(230, 0, 0, 0.5);
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(230, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.5);
+      animation: glowPulse 3s infinite ease-in-out;
+    }
+
+    .page-title {
+      font-size: 3em;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow:
+        0 0 8px rgba(230, 0, 0, 0.8),
+        0 0 16px rgba(230, 0, 0, 0.4);
+      margin-bottom: 0.5em;
+    }
+
+    .intro-text {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: #ccc;
+      max-width: 800px;
+      margin: 0 auto 1.5em;
+    }
+
+    .alumni-btn {
+      display: inline-block;
+      padding: 12px 30px;
+      background: rgba(230, 0, 0, 0.3);
+      border: 2px solid rgba(230, 0, 0, 0.8);
+      border-radius: 5px;
+      color: #fff;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.9rem;
+      transition: all 0.3s;
+    }
+
+    .alumni-btn:hover {
+      background: rgba(230, 0, 0, 0.6);
+      box-shadow: 0 0 20px rgba(230, 0, 0, 0.5);
+    }
+
+    .testimonials-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 60px;
+    }
+
+    .testimonial-card {
+      padding: 1.5rem;
+      border: 2px solid rgba(230, 0, 0, 0.5);
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.5);
+      animation: glowPulse 3s infinite ease-in-out;
+    }
+    .testimonial-image {
+      width: 100%;
+      max-width: 400px;
+      height: 300px;
+      object-fit: cover;
+      object-position: 25% 20%;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      border: 2px solid rgba(230, 0, 0, 0.3);
+    }
+
+    .testimonial-name {
+      font-size: 1.3em;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 0 8px rgba(230, 0, 0, 0.8);
+      margin-bottom: 0.5em;
+    }
+
+    .testimonial-text {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: #ccc;
+    }
+
+    .accomplishments-title {
+      text-align: center;
+      font-size: 2.5em;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow:
+        0 0 8px rgba(230, 0, 0, 0.8),
+        0 0 16px rgba(230, 0, 0, 0.4);
+      margin: 60px 0 10px;
+    }
+
+    .accomplishments-container {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overscroll-behavior: contain;
+
+    }
+
+    .years-wrapper {
+      position: relative;
+      height: 100%;
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .year-section {
+      position: absolute;
+      left: 50%;
+      width: 90%;
+      max-width: 800px;
+      padding: 2rem;
+      border: 2px solid rgba(230, 0, 0, 0.5);
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.5);
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: translate(-50%, 100%) scale(0.8);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .year-section.active {
+      transform: translate(-50%, -50%) scale(1);
+      top: 50%;
+      opacity: 1;
+      border-color: rgba(230, 0, 0, 0.8);
+      box-shadow: 0 0 40px rgba(230, 0, 0, 0.4);
+      animation: glowPulse 3s infinite ease-in-out;
+      pointer-events: auto;
+      z-index: 10;
+      position:absolute;
+      background-image: url('resources/images/spinningcar.gif');
+      background-size: cover;
+      background-position:right center;
+      background-repeat:no-repeat;
+      background-size: 360px auto;
+      padding-right: 220px;
+      opacity: 1;
+    }
+
+    .year-section.prev {
+      transform: translate(-50%, -120%) scale(0.7);
+      top: 50%;
+      opacity: 0.3;
+      z-index: 5;
+    }
+
+    .year-section.next {
+      transform: translate(-50%, 80%) scale(0.7);
+      top: 50%;
+      opacity: 0.3;
+      z-index: 5;
+    }
+
+    .year-title {
+      font-size: 1.8em;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 0 8px rgba(230, 0, 0, 0.8);
+      margin-bottom: 0.5em;
+    }
+
+    .competition-name {
+      font-size: 1.1em;
+      color: #fff;
+      margin-bottom: 0.5em;
+    }
+
+    .achievement-list {
+      list-style: none;
+      padding: 0;
+      margin: 0.5em 0;
+    }
+
+    .achievement-list li {
+      color: #ccc;
+      padding: 0.3em 0;
+      font-size: 0.95rem;
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.9rem;
+      z-index: 20;
+    }
+
+    .scroll-arrow {
+      display: block;
+      font-size: 1.5rem;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes glowPulse {
+      0% { 
+        border-color: rgba(230, 0, 0, 0.5);
+        box-shadow: 0 0 20px rgba(230, 0, 0, 0.2);
+      }
+      50% { 
+        border-color: rgba(230, 0, 0, 0.8);
+        box-shadow: 0 0 30px rgba(230, 0, 0, 0.4);
+      }
+      100% { 
+        border-color: rgba(230, 0, 0, 0.5);
+        box-shadow: 0 0 20px rgba(230, 0, 0, 0.2);
+      }
+    }
+
+    @font-face {
+      font-family: 'Orbitron';
+      src: url('./Orbitron/static/Orbitron-Regular.ttf') format('truetype');
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'Orbitron';
+      src: url('./Orbitron/static/Orbitron-Bold.ttf') format('truetype');
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    @media (max-width: 768px) {
+      .page-title {
+        font-size: 2em;
+      }
+      
+      .accomplishments-title {
+        font-size: 1.8em;
+      }
+      
+      .testimonials-section {
+        grid-template-columns: 1fr;
+      }
+      
+      .navbar {
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 0 10px;
+      }
+      
+      .navbar a {
+        font-size: 0.7rem;
+      }
+
+      .year-section {
+        width: 95%;
+        padding: 1.5rem;
+      }
+
+      .year-title {
+        font-size: 1.5em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <img src="resources/images/logo.png" alt="Sooner Racing Team Logo" class="navbar-logo">
+    <a href="index.html">Home</a>
+    <a href="car.html">Car</a>
+    <a href="team.html">Team</a>
+    <a href="history.html" class="active">History</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="sponsors.html">Sponsors</a>
+    <a href="faq.html">FAQ</a>
+    <a href="contact.html">Contact</a>
+    <a href="donate.html" class="donate">Donate Now</a>
+  </nav>
+
+  <div class="content-wrapper">
+    <div class="hero-section">
+      <h1 class="page-title">HISTORY</h1>
+      <div class="intro-text">
+        <p>The Sooner Racing Team was first formed in 1994. A small group of engineering students at the University of Oklahoma were recruited by Professor Bill Patten to compete in the Formula SAE competition. Funded by the College of Engineering, these students formed OU's first FSAE team. Since then, the team has competed in FSAE events almost every year. Sooner Racing has grown in knowledge and performance since its inception, and is regarded by many as the flagship program of OU's College of Aerospace and Mechanical Engineering. The Sooner Racing Team continues operation under the supervision of advisor Dr. Chris Dalton.</p>
+        <p>The team hopes to continue its recent trend of success, promote its program and sponsors, and represent the University of Oklahoma in the largest collegiate engineering competition in the world.</p>
+      </div>
+      <a href="https://www.facebook.com/groups/992628909596671/" target="_blank" class="alumni-btn">Facebook Alumni Group</a>
+    </div>
+
+    <div class="testimonials-section">
+      <div class="testimonial-card">
+        <img src="resources/images/seanmclain.jpg" alt="Sean McLain" class="testimonial-image">
+        <h3 class="testimonial-name">Sean McLain</h3>
+        <p class="testimonial-text">"Joining the Sooner Racing Team was one of, if not the most important decision of my academic career. Formula SAE plays a crucial role in preparing students to enter the workforce with great efficacy. By fostering a hands-on learning environment, the team not only teaches the technical skills necessary for engineering and design but also emphasizes teamwork, project management, and innovative problem solving."</p>
+      </div>
+      
+      <div class="testimonial-card">
+        <img src="resources/images/juliengo.png" alt="Julie Ngo" class="testimonial-image"> 
+        <h3 class="testimonial-name">Julie Ngo</h3>
+        <p class="testimonial-text">"SRT has played a huge role in my academic career. While on the team, I've gotten hands on experience that truly put my creativity and problem solving skills to the test, learned several new skills, and made lifelong friends. It completely shifted my perspective of engineering and reignited my curiosities. Both the successes and challenges we all faced together on the team have taught me countless valuable lessons and made me a better engineer."</p>
+      </div>
+      
+      <div class="testimonial-card">
+        <img src="resources/images/andy-tan.jpg" alt="Andy Tan" class="testimonial-image">
+        <h3 class="testimonial-name">Andy Tan</h3>
+        <p class="testimonial-text">"I originally joined SRT to gain hands-on engineering experience and because race cars are cool. Through SRT, I became a far better engineer than I ever could have from classes alone, which helped me land multiple internships and ultimately the job of my dreams. While becoming a better engineer was my original goal, along the way I had a ton of fun and made some great friends."</p>
+      </div>
+    </div>
+
+    <h2 class="accomplishments-title">Past Accomplishments</h2>
+
+    <div class="accomplishments-container">
+      <div class="years-wrapper">
+        <div class="year-section" data-year="0">
+          <h3 class="year-title">2025 Season Highlights</h3>
+          <p class="competition-name"><strong>Formula SAE Michigan</strong><br>Michigan International Speedway – Brooklyn, MI</p>
+          <ul class="achievement-list">
+            <li>• 4th Place – Acceleration</li>
+          </ul>
+        </div>
+
+        <div class="year-section" data-year="1">
+          <h3 class="year-title">2024 Season Highlights</h3>
+          <p class="competition-name"><strong>Formula SAE Michigan</strong><br>Michigan International Speedway – Brooklyn, MI</p>
+          <ul class="achievement-list">
+            <li>• 6th Place – Acceleration</li>
+          </ul>
+        </div>
+
+        <div class="year-section" data-year="2">
+          <h3 class="year-title">2023 Season Highlights</h3>
+          <p class="competition-name"><strong>Formula SAE Michigan</strong><br>Michigan International Speedway – Brooklyn, MI</p>
+          <ul class="achievement-list">
+            <li>• 8th Place – Acceleration</li>
+          </ul>
+        </div>
+
+        <div class="year-section" data-year="3">
+          <h3 class="year-title">2021 Season Highlights</h3>
+          <p class="competition-name"><strong>Formula SAE Nevada</strong><br>Las Vegas Motor Speedway – Las Vegas, NV</p>
+          <ul class="achievement-list">
+            <li>• 1st Place – Fuel Efficiency</li>
+            <li>• 8th Place – Overall</li>
+            <li>• 13th Place – Skidpad</li>
+            <li>• 9th Place – Acceleration</li>
+            <li>• 8th Place – Endurance</li>
+            <li>• 16th Place – Autocross</li>
+          </ul>
+        </div>
+
+        <div class="year-section" data-year="4">
+          <h3 class="year-title">2019 Season Highlights</h3>
+          <p class="competition-name"><strong>Formula SAE Lincoln</strong><br>Lincoln Airpark – Lincoln, NE</p>
+          <ul class="achievement-list">
+            <li>• 33rd Place – Overall</li>
+            <li>• 32nd Place – Skidpad</li>
+            <li>• 26th Place – Acceleration</li>
+            <li>• 35th Place – Design</li>
+          </ul>
+        </div>
+
+        <div class="year-section" data-year="5">
+          <h3 class="year-title">2018 Season Highlights</h3>
+          <p class="competition-name"><strong>Formula SAE Lincoln</strong><br>Lincoln Airpark – Lincoln, NE</p>
+          <ul class="achievement-list">
+            <li>• 21st Place – Overall</li>
+            <li>• 23rd Place – Skidpad</li>
+            <li>• 25th Place – Design</li>
+          </ul>
+        </div>
+
+        <div class="year-section" data-year="6">
+          <h3 class="year-title">2017 Season Highlights</h3>
+          <p class="competition-name"><strong>Formula SAE Lincoln</strong><br>Lincoln Airpark – Lincoln, NE</p>
+          <ul class="achievement-list">
+            <li>• 42nd Place – Overall</li>
+            <li>• 16th Place – Design</li>
+          </ul>
+        </div>
+
+        <div class="year-section" data-year="7">
+          <h3 class="year-title">2016 Season Highlights</h3>
+          <p class="competition-name"><strong>Formula SAE Lincoln</strong><br>Lincoln Airpark – Lincoln, NE</p>
+          <ul class="achievement-list">
+            <li>• 18th Place – Overall</li>
+            <li>• 3rd Place – Fuel Economy</li>
+          </ul>
+        </div>
+
+        <div class="year-section" data-year="8">
+          <h3 class="year-title">2015 Season Highlights</h3>
+          <p class="competition-name"><strong>Formula SAE Lincoln</strong><br>Lincoln Airpark – Lincoln, NE</p>
+          <ul class="achievement-list">
+            <li>• 60th Place – Overall</li>
+            <li>• 38th Place – Design</li>
+          </ul>
+          <p class="competition-name"><strong>Formula SAE Michigan</strong><br>Michigan International Speedway – Brooklyn, MI</p>
+          <ul class="achievement-list">
+            <li>• 80th Place – Overall</li>
+            <li>• 31st Place – Design</li>
+          </ul>
+        </div>
+
+        <div class="year-section" data-year="9">
+          <h3 class="year-title">2014 Season Highlights</h3>
+          <p class="competition-name"><strong>Formula SAE Lincoln</strong><br>Lincoln Airpark – Lincoln, NE</p>
+          <ul class="achievement-list">
+            <li>• 24th Place – Overall</li>
+            <li>• 28th Place – Design</li>
+          </ul>
+          <p class="competition-name"><strong>Formula SAE Michigan</strong><br>Michigan International Speedway – Brooklyn, MI</p>
+          <ul class="achievement-list">
+            <li>• 45th Place – Overall</li>
+            <li>• 56th Place – Design</li>
+          </ul>
+        </div>
+
+        <div class="year-section" data-year="10">
+          <h3 class="year-title">2013 Season Highlights</h3>
+          <p class="competition-name"><strong>Formula SAE Lincoln</strong><br>Lincoln Airpark – Lincoln, NE</p>
+          <ul class="achievement-list">
+            <li>• 15th Place – Overall</li>
+            <li>• 5th Place – Design</li>
+          </ul>
+        </div>
+
+        <div class="year-section" data-year="11">
+          <h3 class="year-title">2012 Season Highlights</h3>
+          <p class="competition-name"><strong>Formula SAE Lincoln</strong><br>Lincoln Airpark – Lincoln, NE</p>
+          <ul class="achievement-list">
+            <li>• 27th Place – Overall</li>
+            <li>• 9th Place – Design</li>
+          </ul>
+        </div>
+
+        <div class="year-section" data-year="12">
+          <h3 class="year-title">2011 Season Highlights</h3>
+          <p class="competition-name"><strong>Formula SAE California</strong><br>Auto Club Speedway – Fontana, CA</p>
+          <ul class="achievement-list">
+            <li>• 2nd Place – Overall</li>
+            <li>• 4th Place – Design</li>
+            <li>• 1st Place – Skidpad</li>
+          </ul>
+        </div>
+
+        <div class="year-section" data-year="13">
+          <h3 class="year-title">2010 Season Highlights</h3>
+          <p class="competition-name"><strong>Formula SAE California</strong><br>Auto Club Speedway – Fontana, CA</p>
+          <ul class="achievement-list">
+            <li>• 2nd Place – Overall</li>
+            <li>• 3rd Place – Design</li>
+          </ul>
+          <p class="competition-name"><strong>Formula Student Germany</strong><br>Hockenheim, Germany</p>
+          <ul class="achievement-list">
+            <li>• 8th Place – Overall</li>
+          </ul>
+        </div>
+
+        <div class="year-section" data-year="14">
+          <h3 class="year-title">2009 Season Highlights</h3>
+          <p class="competition-name"><strong>Formula SAE California</strong><br>Auto Club Speedway – Fontana, CA</p>
+          <ul class="achievement-list">
+            <li>• 5th Place – Overall</li>
+          </ul>
+          <p class="competition-name"><strong>Formula SAE Virginia</strong><br>Virginia International Raceway</p>
+          <ul class="achievement-list">
+            <li>• 2nd Place – Overall</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="scroll-indicator">
+        <span class="scroll-arrow">↓</span>
+        Scroll to navigate through years
+      </div>
+    </div>
+  </div>
+
+<script>
+  let currentYear = 0;
+  const yearSections = document.querySelectorAll('.year-section');
+  const totalYears = yearSections.length;
+  let isScrolling = false;
+  let scrollTimeout;
+
+  function updateYearPositions() {
+    yearSections.forEach((section, index) => {
+      section.classList.remove('active', 'prev', 'next');
+
+      if (index === currentYear) {
+        section.classList.add('active');
+      } else if (index === currentYear - 1) {
+        section.classList.add('prev');
+      } else if (index === currentYear + 1) {
+        section.classList.add('next');
+      }
+    });
+  }
+
+  function handleScroll(e) {
+    const container = document.querySelector('.accomplishments-container');
+    const rect = container.getBoundingClientRect();
+
+    const inSection =
+      rect.top <= 100 && rect.bottom >= window.innerHeight / 2;
+
+    if (!inSection) {
+      document.body.classList.remove('no-scroll');
+      return;
+    }
+
+    const scrollingDown = e.deltaY > 0;
+    const scrollingUp = e.deltaY < 0;
+
+    if (
+      (scrollingUp && currentYear === 0) ||
+      (scrollingDown && currentYear === totalYears - 1)
+    ) {
+      document.body.classList.remove('no-scroll');
+      return; 
+    }
+
+    e.preventDefault();
+    document.body.classList.add('no-scroll');
+
+    if (isScrolling) return;
+    isScrolling = true;
+
+    if (scrollingDown && currentYear < totalYears - 1) {
+      currentYear++;
+    } else if (scrollingUp && currentYear > 0) {
+      currentYear--;
+    }
+
+    updateYearPositions();
+
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+      isScrolling = false;
+    }, 400);
+  }
+
+  updateYearPositions();
+  window.addEventListener('wheel', handleScroll, { passive: false });
+</script>
+
+</body>
+</html>

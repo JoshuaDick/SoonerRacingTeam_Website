@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chassis - Sooner Racing Team</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      background: #000;
+      font-family: 'Orbitron', sans-serif;
+      color: #fff;
+    }
+
+    video {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      z-index: -1;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+      filter: brightness(0.4) contrast(1.1);
+    }
+
+    .navbar {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      z-index: 100;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 10px 20px;
+      border-radius: 8px;
+      backdrop-filter: blur(10px);
+    }
+
+    .navbar-logo {
+      height: 30px;
+      width: auto;
+      margin-right: 10px;
+    }
+
+    .navbar a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+
+    .navbar a:hover {
+      color: #e60000;
+    }
+
+    .navbar .donate {
+      color: #e60000;
+      font-weight: bold;
+    }
+
+    .content-wrapper {
+      position: relative;
+      z-index: 1;
+      padding: 120px 20px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hero-section {
+      text-align: center;
+      min-height:30vh;
+      margin-bottom: 60px;
+      padding: 2rem;
+      border: 2px solid rgba(230, 0, 0, 0.5);
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(230, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.5);
+      animation: glowPulse 3s infinite ease-in-out;
+      position:relative;
+      overflow:hidden;
+    }
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('resources/images/chassis.jpg');
+      background-size: cover;
+      background-position: center 30%;
+      opacity: 1;
+      z-index: -1;
+    }
+
+    .section-title {
+      font-size: 2.5em;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow:
+        0 0 8px rgba(230, 0, 0, 0.8),
+        0 0 16px rgba(230, 0, 0, 0.4);
+      margin-bottom: 0.5em;
+    }
+
+    .section-description {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: #ccc;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .subsystems-section {
+      text-align: center;
+      margin: 60px 0;
+      padding: 2rem;
+      border: 2px solid rgba(230, 0, 0, 0.5);
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(230, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.5);
+      animation: glowPulse 3s infinite ease-in-out;
+    }
+
+    .subsystem-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+
+    .subsystem-btn {
+      padding: 12px 30px;
+      background: transparent;
+      border: 2px solid #e60000;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 30px;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      transition: all 0.3s;
+      text-transform: uppercase;
+    }
+
+    .subsystem-btn:hover {
+      background: #e60000;
+      box-shadow: 0 0 20px rgba(230, 0, 0, 0.6);
+      transform: translateY(-2px);
+    }
+
+    .subsystem-btn.active {
+      background: #e60000;
+      box-shadow: 0 0 20px rgba(230, 0, 0, 0.6);
+    }
+
+    .content-section {
+      margin: 60px 0;
+      padding: 2rem;
+      border: 2px solid rgba(230, 0, 0, 0.5);
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(230, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.5);
+      animation: glowPulse 3s infinite ease-in-out;
+    }
+
+    .content-section h2 {
+      font-size: 2em;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #fff;
+      text-shadow: 0 0 8px rgba(230, 0, 0, 0.8);
+      margin-bottom: 1em;
+    }
+
+    .content-section p {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: #ccc;
+      margin-bottom: 1em;
+    }
+
+    .social-section {
+      text-align: center;
+      margin: 60px 0 40px;
+      padding: 2rem;
+      border: 0px solid rgba(230, 0, 0, 0.5);
+      border-radius: 10px;
+      box-shadow: 0 0 0px rgba(230, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .social-video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      opacity: 1;
+      object-fit: cover;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .social-title,
+    .social-icons {
+      position: relative;
+      z-index: 1;
+    }
+
+    .social-title {
+      font-size: 1.5em;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #fff;
+      text-shadow:
+        0 0 8px rgba(230, 0, 0, 0.8),
+        0 0 16px rgba(230, 0, 0, 0.4);
+      margin-bottom: 1em;
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .social-icons a {
+      color: #fff;
+      font-size: 2em;
+      transition: all 0.3s;
+      text-shadow: 0 0 8px rgba(230, 0, 0, 0.6);
+    }
+
+    .social-icons a:hover {
+      color: #e60000;
+      text-shadow: 
+        0 0 16px rgba(230, 0, 0, 1),
+        0 0 32px rgba(230, 0, 0, 0.7);
+      transform: scale(1.2);
+    }
+
+    @keyframes glowPulse {
+      0% { 
+        border-color: rgba(230, 0, 0, 0.5);
+        box-shadow: 0 0 20px rgba(230, 0, 0, 0.2);
+      }
+      50% { 
+        border-color: rgba(230, 0, 0, 0.8);
+        box-shadow: 0 0 30px rgba(230, 0, 0, 0.4);
+      }
+      100% { 
+        border-color: rgba(230, 0, 0, 0.5);
+        box-shadow: 0 0 20px rgba(230, 0, 0, 0.2);
+      }
+    }
+
+    @font-face {
+      font-family: 'Orbitron';
+      src: url('./Orbitron/static/Orbitron-Regular.ttf') format('truetype');
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'Orbitron';
+      src: url('./Orbitron/static/Orbitron-Bold.ttf') format('truetype');
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    @media (max-width: 768px) {
+      .section-title {
+        font-size: 2em;
+      }
+      
+      .navbar {
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 0 10px;
+      }
+      
+      .navbar a {
+        font-size: 0.7rem;
+      }
+
+      .subsystem-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .subsystem-btn {
+        width: 100%;
+        max-width: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <img src="resources/images/logo.png" alt="Sooner Racing Team Logo" class="navbar-logo">
+    <a href="index.html">Home</a>
+    <a href="car.html">Car</a>
+    <a href="team.html">Team</a>
+    <a href="history.html">History</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="sponsors.html">Sponsors</a>
+    <a href="faq.html">FAQ</a>
+    <a href="contact.html">Contact</a>
+    <a href="donate.html" class="donate">Donate Now</a>
+  </nav>
+
+
+  <div class="content-wrapper">
+    <div class="hero-section">
+      <h1 class="section-title"><br>Chassis</h1>
+    </div>
+
+    <div class="subsystems-section">
+      <h2 class="section-title">Subsystems</h2>
+      <p class="section-description"><a href="team.html" style="color: #fff; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#e60000'" onmouseout="this.style.color='#fff'">Return to Team</a></p>
+      <div class="subsystem-buttons">
+        <a href="aero.html" class="subsystem-btn">Aerodynamics</a>
+        <a href="chassis.html" class="subsystem-btn active">Chassis</a>
+        <a href="powertrain.html" class="subsystem-btn">Powertrain</a>
+        <a href="electrical.html" class="subsystem-btn">Electrical</a>
+        <a href="business.html" class="subsystem-btn">Business</a>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <p>The Chassis subsystem is essentially the backbone of the car. All components and loads must be attached to the chassis. Chassis design also affects the overall look and feel of the car as it is typically the first thing to be noticed. We currently use a steel tube frame chassis.</p>
+      
+      <h2>Technical Information</h2>
+      <p>In Formula SAE, the frame (or chassis) serves as the primary structural component of the vehicle, providing support for all subsystems while ensuring driver safety and performance. The frame must comply with strict SAE rules regarding material selection, tube sizing, member placement, and rollover protection. These regulations are designed to ensure crashworthiness, structural integrity, and consistent design practices across all teams. Key requirements include a securely defined safety cell, minimum dimensions for critical members, proper load paths, and rigorous documentation through structural and crash analysis. Adhering to these rules is crucial for passing technical inspection and competing safely. <br><br>
+
+The design of the frame and suspension begins with defining performance goals such as handling, safety, stiffness, and weight. The frame is developed to provide a strong, lightweight structure that supports all vehicle components and protects the driver, while also meeting safety regulations. Suspension geometry is carefully designed to maximize tire grip, maintain optimal wheel alignment, and ensure predictable handling under various driving conditions. The process involves analyzing load paths, optimizing component placement, and iterating designs to achieve the ideal balance between structural integrity, ride quality, and performance on the track.</p>
+      
+      <h2>About the Chassis Lead</h2>
+      <p>Macen Henry is a 3rd year Mechanical Engineering student with a strong focus on hands-on design, fabrication, and simulation. As the Chassis Lead for the Sooner racing Team, he leads the structural design and manufacturing of the vehicle’s frame, integrating safety, performance, and manufacturability. He also works as an Undergraduate Research Assistant, supporting mechanical systems development in academic and student-led engineering projects.  With experience working as a machinist in the AME shop, he brings shop skills to every stage of the engineering process, from design to fabrication.</p>
+    </div>
+
+    <div class="social-section">
+      <video class="social-video" autoplay muted loop playsinline>
+        <source src="resources/videos/Glitch_Logo.mp4" type="video/mp4" />
+      </video>
+      <h3 class="social-title"><br><br><br></h3>
+      <div class="social-icons">
+        <a href="https://www.facebook.com/soonerracingteam" target="_blank" aria-label="Facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+        <a href="https://www.instagram.com/sooner_racing/" target="_blank" aria-label="Instagram">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://www.linkedin.com/company/sooner-racing-team/posts/?feedView=all" target="_blank" aria-label="LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+        <a href="https://www.tiktok.com/@soonerracing?_t=ZP-8w8gVIcPw0U&_r=1" target="_blank" aria-label="TikTok">
+          <i class="fab fa-tiktok"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.querySelector("video").playbackRate = 1.0;
+  </script>
+</body>
+</html>

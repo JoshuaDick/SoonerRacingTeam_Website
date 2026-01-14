@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us - Sooner Racing Team</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      background: #000;
+      font-family: 'Orbitron', sans-serif;
+      color: #fff;
+    }
+
+    video {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      z-index: -1;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+      filter: brightness(0.4) contrast(1.1);
+    }
+
+    .navbar {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      z-index: 100;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 10px 20px;
+      border-radius: 8px;
+      backdrop-filter: blur(10px);
+    }
+
+    .navbar-logo {
+      height: 30px;
+      width: auto;
+      margin-right: 10px;
+    }
+
+    .navbar a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+
+    .navbar a:hover {
+      color: #e60000;
+    }
+
+    .navbar a.active {
+      color: #e60000;
+      font-weight: bold;
+      text-shadow:
+        0 0 8px rgba(230, 0, 0, 0.8),
+        0 0 16px rgba(230, 0, 0, 0.4);
+    }
+    .navbar .donate {
+      color: #e60000;
+      font-weight: bold;
+    }
+
+    .content-wrapper {
+      position: relative;
+      z-index: 1;
+      padding: 120px 20px 40px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 60px;
+    }
+
+    .contact-section {
+      padding: 2rem;
+      border: 2px solid rgba(230, 0, 0, 0.5);
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(230, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.5);
+      animation: glowPulse 3s infinite ease-in-out;
+    }
+
+    .section-title {
+      font-size: 2em;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow:
+        0 0 8px rgba(230, 0, 0, 0.8),
+        0 0 16px rgba(230, 0, 0, 0.4);
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+      display: block;
+      color: #fff;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    .form-label .required {
+      color: #e60000;
+    }
+
+    .form-input,
+    .form-textarea {
+      width: 100%;
+      padding: 12px 15px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(230, 0, 0, 0.3);
+      border-radius: 5px;
+      color: #fff;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.9rem;
+      transition: all 0.3s;
+      box-sizing: border-box;
+    }
+
+    .form-input:focus,
+    .form-textarea:focus {
+      outline: none;
+      border-color: rgba(230, 0, 0, 0.8);
+      box-shadow: 0 0 10px rgba(230, 0, 0, 0.3);
+    }
+
+    .form-textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .submit-btn {
+      padding: 15px 40px;
+      background: rgba(230, 0, 0, 0.8);
+      border: 2px solid #e60000;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 0 15px rgba(230, 0, 0, 0.3);
+    }
+
+    .submit-btn:hover {
+      background: #e60000;
+      box-shadow: 0 0 30px rgba(230, 0, 0, 0.6);
+      transform: scale(1.05);
+    }
+
+    .info-item {
+      margin-bottom: 2rem;
+    }
+
+    .info-title {
+      font-size: 1.2em;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 0 6px rgba(230, 0, 0, 0.6);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .info-text {
+      color: #ccc;
+      line-height: 1.6;
+    }
+
+    .info-link {
+      color: #e60000;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .info-link:hover {
+      color: #ff3333;
+    }
+
+    .sponsor-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 25px;
+      background: rgba(230, 0, 0, 0.2);
+      border: 1px solid rgba(230, 0, 0, 0.5);
+      border-radius: 5px;
+      color: #fff;
+      text-decoration: none;
+      transition: all 0.3s;
+      margin-top: 1rem;
+    }
+
+    .sponsor-link:hover {
+      background: rgba(230, 0, 0, 0.4);
+      border-color: rgba(230, 0, 0, 0.8);
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .social-icons a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      background: rgba(230, 0, 0, 0.2);
+      border: 1px solid rgba(230, 0, 0, 0.5);
+      border-radius: 50%;
+      color: #fff;
+      font-size: 1.5em;
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+
+    .social-icons a:hover {
+      background: rgba(230, 0, 0, 0.6);
+      border-color: #e60000;
+      transform: scale(1.1);
+      box-shadow: 0 0 15px rgba(230, 0, 0, 0.6);
+    }
+
+    .team-image {
+      width: 100%;
+      border-radius: 10px;
+      margin-top: 2rem;
+      border: 2px solid rgba(230, 0, 0, 0.3);
+    }
+
+    .social-section {
+      text-align: center;
+      margin: 60px 0 40px;
+      padding: 2rem;
+      border: 2px solid rgba(230, 0, 0, 0.5);
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(230, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .social-video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      opacity: 1;
+      object-fit: cover;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .social-title {
+      position: relative;
+      z-index: 1;
+      font-size: 1.5em;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #fff;
+      text-shadow:
+        0 0 8px rgba(230, 0, 0, 0.8),
+        0 0 16px rgba(230, 0, 0, 0.4);
+      margin-bottom: 1em;
+    }
+
+    .social-icons-large {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .social-icons-large a {
+      color: #fff;
+      font-size: 2em;
+      transition: all 0.3s;
+      text-shadow: 0 0 8px rgba(230, 0, 0, 0.6);
+    }
+
+    .social-icons-large a:hover {
+      color: #e60000;
+      text-shadow: 
+        0 0 16px rgba(230, 0, 0, 1),
+        0 0 32px rgba(230, 0, 0, 0.7);
+      transform: scale(1.2);
+    }
+
+    @keyframes glowPulse {
+      0% { 
+        border-color: rgba(230, 0, 0, 0.5);
+        box-shadow: 0 0 20px rgba(230, 0, 0, 0.2);
+      }
+      50% { 
+        border-color: rgba(230, 0, 0, 0.8);
+        box-shadow: 0 0 30px rgba(230, 0, 0, 0.4);
+      }
+      100% { 
+        border-color: rgba(230, 0, 0, 0.5);
+        box-shadow: 0 0 20px rgba(230, 0, 0, 0.2);
+      }
+    }
+
+    @font-face {
+      font-family: 'Orbitron';
+      src: url('./Orbitron/static/Orbitron-Regular.ttf') format('truetype');
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'Orbitron';
+      src: url('./Orbitron/static/Orbitron-Bold.ttf') format('truetype');
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    @media (max-width: 768px) {
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title {
+        font-size: 1.5em;
+      }
+      
+      .navbar {
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 0 10px;
+      }
+      
+      .navbar a {
+        font-size: 0.7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <img src="resources/images/logo.png" alt="Sooner Racing Team Logo" class="navbar-logo">
+    <a href="index.html">Home</a>
+    <a href="car.html">Car</a>
+    <a href="team.html">Team</a>
+    <a href="history.html">History</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="sponsors.html">Sponsors</a>
+    <a href="faq.html">FAQ</a>
+    <a href="contact.html" class="active">Contact</a>
+    <a href="donate.html" class="donate">Donate Now</a>
+  </nav>
+
+  <div class="content-wrapper">
+    <div class="contact-grid">
+      <!-- Contact Form Section -->
+      <div class="contact-section">
+        <h1 class="section-title">Contact Us</h1>
+        <form id="contactForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">First Name <span class="required">*</span></label>
+              <input type="text" class="form-input" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Last Name <span class="required">*</span></label>
+              <input type="text" class="form-input" required>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Email <span class="required">*</span></label>
+            <input type="email" class="form-input" required>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Subject</label>
+            <input type="text" class="form-input">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Comment or Message</label>
+            <textarea class="form-textarea"></textarea>
+          </div>
+          
+          <button type="submit" class="submit-btn">Submit</button>
+        </form>
+      </div>
+
+      <!-- Information Section -->
+      <div class="contact-section">
+        <div class="info-item">
+          <p class="info-text">If you're interested in sponsoring us, please see our sponsor packet linked here.</p>
+          <a href="resources/documents/SRT-Sponsorship-Package-25-26.pdf" class="sponsor-link" target="_blank">
+            <i class="fas fa-link"></i>
+            Sponsorship Package
+          </a>
+        </div>
+
+        <div class="info-item">
+          <h3 class="info-title">
+            <i class="fas fa-envelope"></i>
+            Email Address
+          </h3>
+          <p class="info-text">
+            <a href="mailto:soonerracingteam@ou.edu" class="info-link">soonerracingteam@ou.edu</a>
+          </p>
+        </div>
+
+        <div class="info-item">
+          <h3 class="info-title">
+            <i class="fas fa-map-marker-alt"></i>
+            Address
+          </h3>
+          <p class="info-text">
+            ExxonMobil Lawrence G. Rawl Engineering Practice Facility<br>
+            850 S Jenkins Ave<br>
+            Norman, OK 73019
+          </p>
+        </div>
+
+        <div class="info-item">
+          <h3 class="info-title">Socials</h3>
+          <div class="social-icons">
+            <a href="https://www.instagram.com/sooner_racing/" target="_blank" aria-label="Instagram">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="https://www.facebook.com/soonerracingteam" target="_blank" aria-label="Facebook">
+              <i class="fab fa-facebook"></i>
+            </a>
+            <a href="https://www.tiktok.com/@soonerracing?_t=ZP-8w8gVIcPw0U&_r=1" target="_blank" aria-label="TikTok">
+              <i class="fab fa-tiktok"></i>
+            </a>
+            <a href="https://www.linkedin.com/company/sooner-racing-team/posts/?feedView=all" target="_blank" aria-label="LinkedIn">
+              <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="mailto:soonerracingteam@ou.edu" aria-label="Email">
+              <i class="fas fa-envelope"></i>
+            </a>
+            <a href="https://linktr.ee/sooner_racing" target="_blank" aria-label="Linktree">
+              <i class="fas fa-tree"></i>
+            </a>
+          </div>
+        </div>
+
+        <img src="resources/images/car.jpg" alt="Sooner Racing Team" class="team-image">
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.querySelector("video").playbackRate = 1.0;
+
+    // Form submission handler
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Thank you for your message! We will get back to you soon.');
+      this.reset();
+    });
+  </script>
+</body>
+</html>

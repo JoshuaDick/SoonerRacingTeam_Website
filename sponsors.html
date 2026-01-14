@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sponsors - Sooner Racing Team</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      background: #000;
+      font-family: 'Orbitron', sans-serif;
+      color: #fff;
+    }
+
+    video {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      z-index: -1;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+      filter: brightness(0.4) contrast(1.1);
+    }
+
+    .navbar {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      z-index: 100;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 10px 20px;
+      border-radius: 8px;
+      backdrop-filter: blur(10px);
+    }
+
+    .navbar-logo {
+      height: 30px;
+      width: auto;
+      margin-right: 10px;
+    }
+
+    .navbar a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+
+    .navbar a:hover {
+      color: #e60000;
+    }
+
+    .navbar a.active {
+      color: #e60000;
+      font-weight: bold;
+      text-shadow:
+        0 0 8px rgba(230, 0, 0, 0.8),
+        0 0 16px rgba(230, 0, 0, 0.4);
+    }
+    .navbar .donate {
+      color: #e60000;
+      font-weight: bold;
+    }
+
+    .content-wrapper {
+      position: relative;
+      z-index: 1;
+      padding: 120px 20px 40px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .hero-section {
+      text-align: center;
+      margin-bottom: 40px;
+      padding: 2rem;
+      border: 2px solid rgba(230, 0, 0, 0.5);
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(230, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.5);
+      animation: glowPulse 3s infinite ease-in-out;
+    }
+
+    .hero-title {
+      font-size: 2.5em;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow:
+        0 0 8px rgba(230, 0, 0, 0.8),
+        0 0 16px rgba(230, 0, 0, 0.4);
+      margin-bottom: 0.5em;
+    }
+
+    .hero-text {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: #ccc;
+      max-width: 800px;
+      margin: 0 auto 1.5em;
+    }
+
+    .cta-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .cta-button {
+      padding: 15px 40px;
+      background: rgba(230, 0, 0, 0.8);
+      border: 2px solid #e60000;
+      border-radius: 8px;
+      color: #fff;
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: all 0.3s;
+      box-shadow: 0 0 15px rgba(230, 0, 0, 0.3);
+    }
+
+    .cta-button:hover {
+      background: #e60000;
+      box-shadow: 0 0 30px rgba(230, 0, 0, 0.6);
+      transform: scale(1.05);
+    }
+
+    .sponsor-tier {
+      margin: 40px 0;
+      padding: 2rem;
+      border: 2px solid rgba(230, 0, 0, 0.5);
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(230, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.5);
+      animation: glowPulse 3s infinite ease-in-out;
+    }
+
+    .tier-title {
+      font-size: 2em;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-shadow:
+        0 0 8px rgba(230, 0, 0, 0.8),
+        0 0 16px rgba(230, 0, 0, 0.4);
+      margin-bottom: 0.5em;
+      text-align: center;
+    }
+
+    .tier-title.gold {
+      color: #FFD700;
+      text-shadow:
+        0 0 8px rgba(255, 215, 0, 0.8),
+        0 0 16px rgba(255, 215, 0, 0.4);
+    }
+
+    .tier-title.silver {
+      color: #C0C0C0;
+      text-shadow:
+        0 0 8px rgba(192, 192, 192, 0.8),
+        0 0 16px rgba(192, 192, 192, 0.4);
+    }
+
+    .tier-title.crimson {
+      color: #DC143C;
+      text-shadow:
+        0 0 8px rgba(220, 20, 60, 0.8),
+        0 0 16px rgba(220, 20, 60, 0.4);
+    }
+
+    .tier-title.cream {
+      color: #fff;
+      text-shadow:
+        0 0 8px rgba(230, 0, 0, 0.8),
+        0 0 16px rgba(230, 0, 0, 0.4);
+    }
+
+    .tier-divider {
+      height: 2px;
+      background: linear-gradient(to right, transparent, #e60000, transparent);
+      margin: 20px 0 30px;
+    }
+
+    .sponsor-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-bottom: 20px;
+    }
+
+    .sponsor-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid rgba(230, 0, 0, 0.3);
+      border-radius: 8px;
+      transition: all 0.3s;
+      min-height: 150px;
+    }
+
+    .sponsor-item:hover {
+      border-color: rgba(230, 0, 0, 0.8);
+      box-shadow: 0 0 20px rgba(230, 0, 0, 0.4);
+      transform: translateY(-5px);
+      background: rgba(255, 255, 255, 1);
+    }
+
+    .sponsor-item img {
+      max-width: 100%;
+      max-height: 120px;
+      object-fit: contain;
+      transition: filter 0.3s;
+    }
+
+    .sponsor-item:hover img {
+      filter: brightness(1.1);
+    }
+
+    .sponsor-text {
+      font-size: 1.2em;
+      font-weight: 700;
+      color: #000;
+      text-align: center;
+    }
+
+    .additional-sponsors {
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .additional-title {
+      font-size: 1.5em;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 0 8px rgba(230, 0, 0, 0.8);
+      margin-bottom: 1em;
+    }
+
+    .additional-list {
+      font-size: 1.1em;
+      color: #ccc;
+      line-height: 1.8;
+    }
+
+    .social-section {
+      text-align: center;
+      margin: 60px 0 40px;
+      padding: 2rem;
+      border: 0px solid rgba(230, 0, 0, 0.5);
+      border-radius: 10px;
+      box-shadow: 0 0 0px rgba(230, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .social-video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      opacity: 1;
+      object-fit: cover;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .social-title,
+    .social-icons {
+      position: relative;
+      z-index: 1;
+    }
+
+    .social-title {
+      font-size: 1.5em;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #fff;
+      text-shadow:
+        0 0 8px rgba(230, 0, 0, 0.8),
+        0 0 16px rgba(230, 0, 0, 0.4);
+      margin-bottom: 1em;
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .social-icons a {
+      color: #fff;
+      font-size: 2em;
+      transition: all 0.3s;
+      text-shadow: 0 0 8px rgba(230, 0, 0, 0.6);
+    }
+
+    .social-icons a:hover {
+      color: #e60000;
+      text-shadow: 
+        0 0 16px rgba(230, 0, 0, 1),
+        0 0 32px rgba(230, 0, 0, 0.7);
+      transform: scale(1.2);
+    }
+
+    @keyframes glowPulse {
+      0% { 
+        border-color: rgba(230, 0, 0, 0.5);
+        box-shadow: 0 0 20px rgba(230, 0, 0, 0.2);
+      }
+      50% { 
+        border-color: rgba(230, 0, 0, 0.8);
+        box-shadow: 0 0 30px rgba(230, 0, 0, 0.4);
+      }
+      100% { 
+        border-color: rgba(230, 0, 0, 0.5);
+        box-shadow: 0 0 20px rgba(230, 0, 0, 0.2);
+      }
+    }
+
+    @font-face {
+      font-family: 'Orbitron';
+      src: url('./Orbitron/static/Orbitron-Regular.ttf') format('truetype');
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'Orbitron';
+      src: url('./Orbitron/static/Orbitron-Bold.ttf') format('truetype');
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2em;
+      }
+      
+      .tier-title {
+        font-size: 1.5em;
+      }
+
+      .sponsor-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .navbar {
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 0 10px;
+      }
+      
+      .navbar a {
+        font-size: 0.7rem;
+      }
+      .navbar a.active {
+        color: red;
+        font-weight: bold;
+      }
+      .cta-buttons {
+        flex-direction: column;
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <img src="resources/images/logo.png" alt="Sooner Racing Team Logo" class="navbar-logo">
+    <a href="index.html">Home</a>
+    <a href="car.html">Car</a>
+    <a href="team.html">Team</a>
+    <a href="history.html">History</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="sponsors.html"class="active">Sponsors</a>
+    <a href="faq.html">FAQ</a>
+    <a href="contact.html">Contact</a>
+    <a href="donate.html" class="donate">Donate Now</a>
+  </nav>
+
+  <div class="content-wrapper">
+    <div class="hero-section">
+      <h1 class="hero-title">Support Our Team Today!</h1>
+      <p class="hero-text">
+        The Sooner Racing Team is powered by the generous support of our sponsors and donors, whose material and monetary contributions make our continued innovation in Formula SAE possible. Join our network of over 30 public and private partners and help drive the future of engineering excellence.
+      </p>
+      <p class="hero-text">
+        To join us as a corporate partner, visit the sponsorship package below for more information on our sponsorship tiers and benefits. Contact us via email: <a href="mailto:soonerracingteam@ou.edu" style="color: #e60000;">soonerracingteam@ou.edu</a>
+      </p>
+      <p class="hero-text">
+        For individual donations, follow the "Donate Now" button below.
+      </p>
+      
+      <div class="cta-buttons">
+        <a href="resources/documents/SRT-Sponsorship-Package-25-26.pdf" class="cta-button" target="_blank">Sponsorship Package</a>
+        <a href="https://securelb.imodules.com/s/1720/21/form.aspx?sid=1720&gid=2&pgid=2939&cid=7996&appealcode=24WENR5ZZZ" class="cta-button">Donate Now</a>
+      </div>
+    </div>
+
+    <!-- Gold Sponsors -->
+    <div class="sponsor-tier">
+      <h2 class="tier-title gold">Gold Sponsors</h2>
+      <div class="tier-divider"></div>
+      <div class="sponsor-grid">
+        <div class="sponsor-item">
+          <a href="https://bgf.com/" target="_blank">
+            <img src="resources/images/sponsors/BGF_Industries-removebg-preview.png" alt="BGF Industries">
+          </a>
+        </div>
+        <div class="sponsor-item">
+          <a href="https://precisionboard.com/" target="_blank">
+            <img src="resources/images/sponsors/Coastal_Enterprises-1024x585-1.png" alt="Coastal Enterprises">
+          </a>
+        </div>
+        <div class="sponsor-item">
+          <a href="https://chomarat.com/en/" target="_blank">
+            <img src="resources/images/sponsors/Chromarat-1024x585-1.png" alt="Chomarat">
+          </a>
+        </div>
+        <div class="sponsor-item">
+          <a href="https://www.ou.edu/coe/ame" target="_blank">
+            <img src="resources/images/sponsors/Screenshot_2025-08-18_142016-removebg-preview-1-1024x213.png" alt="OU AME">
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Silver Sponsors -->
+    <div class="sponsor-tier">
+      <h2 class="tier-title silver">Silver Sponsors</h2>
+      <div class="tier-divider"></div>
+      <div class="sponsor-grid">
+        <div class="sponsor-item">
+          <a href="https://www.summitracing.com/" target="_blank">
+            <img src="resources/images/sponsors/Summit-Racing-Equipment-Logo-1024x580-1.webp" alt="Summit Racing">
+          </a>
+        </div>
+        <div class="sponsor-item">
+          <a href="https://rapidharness.com/" target="_blank">
+            <img src="resources/images/sponsors/Screenshot_2025-08-17_220650-removebg-preview.png" alt="Rapid Harness">
+          </a>
+        </div>
+        <div class="sponsor-item">
+          <a href="https://www.redbull.com/us-en" target="_blank">
+            <img src="resources/images/sponsors/Red-Bull-logo-scaled-1-1024x576.png" alt="Red Bull">
+          </a>
+        </div>
+        <div class="sponsor-item">
+          <a href="https://www.ghaasfoundation.org/" target="_blank">
+            <img src="resources/images/sponsors/Gene-Haas-1024x988.png" alt="Gene Haas Foundation">
+          </a>
+        </div>
+        <div class="sponsor-item">
+          <a href="https://www.phillips66.com/" target="_blank">
+            <img src="resources/images/sponsors/png-clipart-phillips-66-gasoline-logo-fuel-business-conocophillipslogoeps-text-label-removebg-preview.png" alt="Phillips 66">
+          </a>
+        </div>
+        <div class="sponsor-item">
+          <a href="https://www.solidworks.com/" target="_blank">
+            <img src="resources/images/sponsors/Screenshot_2025-08-18_144619-removebg-preview.png" alt="SolidWorks">
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Crimson Sponsors -->
+    <div class="sponsor-tier">
+      <h2 class="tier-title crimson">Crimson Sponsors</h2>
+      <div class="tier-divider"></div>
+      <div class="sponsor-grid">
+        <div class="sponsor-item">
+          <a href="https://3dconnexion.com/us/" target="_blank">
+            <img src="resources/images/sponsors/3dconnexion_logo.png" alt="3Dconnexion">
+          </a>
+        </div>
+        <div class="sponsor-item">
+          <a href="https://www.amsoil.com/" target="_blank">
+            <img src="resources/images/sponsors/amsoil-logo.png" alt="Amsoil">
+          </a>
+        </div>
+        <div class="sponsor-item">
+          <a href="https://deatschwerks.com/" target="_blank">
+            <img src="resources/images/sponsors/deatschwerks1.png" alt="Deatschwerks">
+          </a>
+        </div>
+        <div class="sponsor-item">
+          <a href="https://www.enerflex.com/" target="_blank">
+            <img src="resources/images/sponsors/enerflex-1024x259.png" alt="Enerflex">
+          </a>
+        </div>
+        <div class="sponsor-item">
+          <a href="https://www.northropgrumman.com/" target="_blank">
+            <img src="resources/images/sponsors/Northrop_Grumman_logo_blue-on-clear_2020.svg-1024x235.png" alt="Northrop Grumman">
+          </a>
+        </div>
+        <div class="sponsor-item">
+          <a href="https://airtech.com/" target="_blank">
+            <img src="resources/images/sponsors/airtechintl-logo.png" alt="Airtech">
+          </a>
+        </div>
+        <div class="sponsor-item">
+          <a href="https://www.mouser.com/" target="_blank">
+            <img src="resources/images/sponsors/m-mouser-electronics-process-blue-1024x335.png" alt="Mouser Electronics">
+          </a>
+        </div>
+        <div class="sponsor-item">
+          <a href="https://www.randdresin.com/" target="_blank">
+            <img src="resources/images/sponsors/logo.jpg" alt="R&D Resin">
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cream Sponsors -->
+    <div class="sponsor-tier">
+      <h2 class="tier-title cream">Cream Sponsors</h2>
+      <div class="tier-divider"></div>
+      <div class="sponsor-grid">
+        <div class="sponsor-item">
+          <a href="https://www.motec.com.au/" target="_blank">
+            <img src="resources/images/sponsors/Screenshot_2025-08-18_162404-removebg-preview.png" alt="MoTeC">
+          </a>
+        </div>
+        <div class="sponsor-item">
+          <div class="sponsor-text">Dona Shirley Foundation</div>
+        </div>
+        <div class="sponsor-item">
+          <a href="https://www.milspecwiring.com/" target="_blank">
+            <img src="resources/images/sponsors/Screenshot_2025-08-18_162322-removebg-preview-1024x199.png" alt="Mil-Spec Wiring">
+          </a>
+        </div>
+        <div class="sponsor-item">
+          <a href="https://www.ou.edu/sga" target="_blank">
+            <img src="resources/images/sponsors/Screenshot_2025-08-17_220008-removebg-preview.png" alt="OU SGA">
+          </a>
+        </div>
+        <div class="sponsor-item">
+          <a href="https://www.okcscoops.com/" target="_blank">
+            <img src="resources/images/sponsors/Scoops-Ice-Cream-Truck-1-1.png" alt="Scoops">
+          </a>
+        </div>
+        <div class="sponsor-item">
+          <a href="https://americanpowerinnovations.com/" target="_blank">
+            <img src="resources/images/sponsors/api-logo-1-1024x277.png" alt="API">
+          </a>
+        </div>
+        <div class="sponsor-item">
+          <a href="https://www.sunlu.com/" target="_blank">
+            <img src="resources/images/sponsors/sunlu.jpg" alt="Sunlu">
+          </a>
+        </div>
+        <div class="sponsor-item">
+          <a href="https://www.ckworldwide.com/" target="_blank">
+            <img src="resources/images/sponsors/ck-logo1.png" alt="CK Worldwide">
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Additional Sponsors -->
+    <div class="sponsor-tier">
+      <h2 class="tier-title">Additional Sponsors</h2>
+      <div class="tier-divider"></div>
+      <div class="additional-sponsors">
+        <p class="additional-list">Burger King, Costco, Armor Guys, AVID Paintball Parks</p>
+      </div>
+    </div>
+
+    <div class="social-section">
+      <video class="social-video" autoplay muted loop playsinline>
+        <source src="resources/videos/Glitch_Logo.mp4" type="video/mp4" />
+      </video>
+      <h3 class="social-title"><br><br><br></h3>
+      <div class="social-icons">
+        <a href="https://www.facebook.com/soonerracingteam" target="_blank" aria-label="Facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+        <a href="https://www.instagram.com/sooner_racing/" target="_blank" aria-label="Instagram">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://www.linkedin.com/company/sooner-racing-team/posts/?feedView=all" target="_blank" aria-label="LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+        <a href="https://www.tiktok.com/@soonerracing?_t=ZP-8w8gVIcPw0U&_r=1" target="_blank" aria-label="TikTok">
+          <i class="fab fa-tiktok"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.querySelector("video").playbackRate = 1.0;
+  </script>
+</body>
+</html>

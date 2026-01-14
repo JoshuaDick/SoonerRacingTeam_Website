@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQ - Sooner Racing Team</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      background: #000;
+      font-family: 'Orbitron', sans-serif;
+      color: #fff;
+    }
+
+    video {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      z-index: -1;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+      filter: brightness(0.4) contrast(1.1);
+    }
+
+    .navbar {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      z-index: 100;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 10px 20px;
+      border-radius: 8px;
+      backdrop-filter: blur(10px);
+    }
+
+    .navbar-logo {
+      height: 30px;
+      width: auto;
+      margin-right: 10px;
+    }
+
+    .navbar a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+
+    .navbar a:hover {
+      color: #e60000;
+    }
+
+    .navbar a.active {
+      color: #e60000;
+      font-weight: bold;
+      text-shadow:
+        0 0 8px rgba(230, 0, 0, 0.8),
+        0 0 16px rgba(230, 0, 0, 0.4);
+    }
+    .navbar .donate {
+      color: #e60000;
+      font-weight: bold;
+    }
+
+    .content-wrapper {
+      position: relative;
+      z-index: 1;
+      padding: 120px 20px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .page-title {
+      font-size: 3em;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-align: center;
+      color: #fff;
+      text-shadow:
+        0 0 8px rgba(230, 0, 0, 0.8),
+        0 0 16px rgba(230, 0, 0, 0.4);
+      margin-bottom: 2rem;
+    }
+
+    .faq-container {
+      margin-bottom: 60px;
+    }
+
+    .faq-item {
+      margin-bottom: 1.5rem;
+      border: 2px solid rgba(230, 0, 0, 0.5);
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+
+    .faq-item:hover {
+      border-color: rgba(230, 0, 0, 0.8);
+      box-shadow: 0 0 20px rgba(230, 0, 0, 0.3);
+    }
+
+    .faq-question {
+      padding: 1.5rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+      transition: background 0.3s;
+    }
+
+    .faq-question:hover {
+      background: rgba(230, 0, 0, 0.1);
+    }
+
+    .faq-question-text {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #fff;
+      flex: 1;
+    }
+
+    .faq-icon {
+      color: #e60000;
+      font-size: 1.2rem;
+      transition: transform 0.3s;
+      margin-left: 1rem;
+    }
+
+    .faq-item.active .faq-icon {
+      transform: rotate(90deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+      padding: 0 1.5rem;
+    }
+
+    .faq-item.active .faq-answer {
+      max-height: 1000px;
+      padding: 0 1.5rem 1.5rem;
+    }
+
+    .faq-answer-text {
+      color: #ccc;
+      line-height: 1.8;
+      font-size: 0.95rem;
+    }
+
+    .social-section {
+      text-align: center;
+      margin: 60px 0 40px;
+      padding: 2rem;
+      border: 0px solid rgba(230, 0, 0, 0.5);
+      border-radius: 10px;
+      box-shadow: 0 0 0px rgba(230, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .social-video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      opacity: 1;
+      object-fit: cover;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .social-title {
+      position: relative;
+      z-index: 1;
+      font-size: 1.5em;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #fff;
+      text-shadow:
+        0 0 8px rgba(230, 0, 0, 0.8),
+        0 0 16px rgba(230, 0, 0, 0.4);
+      margin-bottom: 1em;
+    }
+
+    .social-icons {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .social-icons a {
+      color: #fff;
+      font-size: 2em;
+      transition: all 0.3s;
+      text-shadow: 0 0 8px rgba(230, 0, 0, 0.6);
+    }
+
+    .social-icons a:hover {
+      color: #e60000;
+      text-shadow: 
+        0 0 16px rgba(230, 0, 0, 1),
+        0 0 32px rgba(230, 0, 0, 0.7);
+      transform: scale(1.2);
+    }
+
+    @font-face {
+      font-family: 'Orbitron';
+      src: url('./Orbitron/static/Orbitron-Regular.ttf') format('truetype');
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'Orbitron';
+      src: url('./Orbitron/static/Orbitron-Bold.ttf') format('truetype');
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    @media (max-width: 768px) {
+      .page-title {
+        font-size: 2em;
+      }
+
+      .faq-question-text {
+        font-size: 1rem;
+      }
+
+      .faq-question {
+        padding: 1rem;
+      }
+
+      .faq-item.active .faq-answer {
+        padding: 0 1rem 1rem;
+      }
+      
+      .navbar {
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 0 10px;
+      }
+      
+      .navbar a {
+        font-size: 0.7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <img src="resources/images/logo.png" alt="Sooner Racing Team Logo" class="navbar-logo">
+    <a href="index.html">Home</a>
+    <a href="car.html">Car</a>
+    <a href="team.html">Team</a>
+    <a href="history.html">History</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="sponsors.html">Sponsors</a>
+    <a href="faq.html" class="active">FAQ</a>
+    <a href="contact.html">Contact</a>
+    <a href="donate.html" class="donate">Donate Now</a>
+  </nav>
+
+  <div class="content-wrapper">
+    <h1 class="page-title">FAQ</h1>
+
+    <div class="faq-container">
+      <div class="faq-item">
+        <div class="faq-question">
+          <span class="faq-question-text">How can I join the team?</span>
+          <i class="fas fa-caret-right faq-icon"></i>
+        </div>
+        <div class="faq-answer">
+          <p class="faq-answer-text">
+            You must be a full time student at the University of Oklahoma to join the Sooner Racing Team. The team welcomes all majors to get involved and attend our weekly general meetings. At general meetings our Team Captain and subsystem leads will share progress updates and ongoing work being done. After this, the team splits up into their respective subsystem groups to further discuss plans for the upcoming week.<br><br>
+            Another way to get involved is by simply showing up to the team's Saturday morning workdays at the Rawl Engineering Practice Facility or by reaching out via email or Social Media.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span class="faq-question-text">I have no experience, can I still join?</span>
+          <i class="fas fa-caret-right faq-icon"></i>
+        </div>
+        <div class="faq-answer">
+          <p class="faq-answer-text">
+            Of course! The Sooner Racing Team welcomes everyone regardless of technical or physical experience. Our team takes pride in its ability to develop professionals and leaders from the ground. Across all fields, we will take you through the process of learning new skills and becoming an experienced member of our team. The only requirements are commitment, dedication, and a passion for racing.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span class="faq-question-text">Why should I join the team?</span>
+          <i class="fas fa-caret-right faq-icon"></i>
+        </div>
+        <div class="faq-answer">
+          <p class="faq-answer-text">
+            <strong>Technical skills:</strong> Through the team you can receive a deeper understanding of engineering principles within structural design, aerodynamic design, manufacturing processes, engine tuning, and power requirements.<br><br>
+            <strong>Soft skills:</strong> Some of the most vital, and difficult, aspects of our team are management and documentation. Every year the team uses networking, budgeting, time management, and leadership skills to build a strong foundation for the team in the future.<br><br>
+            It's impossible to build a racecar without getting to know the people you're working with. The team often holds social events and even has Formula 1 watch parties. Also, it's just cool to build a racecar!
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span class="faq-question-text">Where does the team compete?</span>
+          <i class="fas fa-caret-right faq-icon"></i>
+        </div>
+        <div class="faq-answer">
+          <p class="faq-answer-text">
+            Every year, the team travels to two different competitions. The University of Texas at Arlington hosts the Annual Texas Autocross Invitational where we race the previous year's build and meet other teams in a more relaxed setting without the pressure of judges, rules, and competition. This two-day event allows for less experienced drivers to gain exposure to high-speed driving and provides an opportunity for more members of our team to travel to a competition.<br><br>
+            The second competition is our primary goal for the year. Hosted by Formula SAE at Michigan International Speedway, the team competes against 120 other universities in both static and dynamic events. Here we are judged and evaluated on the design and documentation of our car throughout the past year. The four dynamic events include: acceleration, autocross, skid pad, and endurance. Between these events, the team defends and presents our design philosophy and execution to a panel of industry professional judges.<br><br>
+            Each competition provides teams the unique chance to demonstrate their creativity and engineering ability against teams from around the world.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span class="faq-question-text">Who gets to drive the car?</span>
+          <i class="fas fa-caret-right faq-icon"></i>
+        </div>
+        <div class="faq-answer">
+          <p class="faq-answer-text">
+            We do! Every committed member will have an opportunity to drive the car at some point during their time on SRT. After team drive-days, we evaluate which members performed the best and often give those people the chance to drive at one of our competitions.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span class="faq-question-text">Do you build a new car every year?</span>
+          <i class="fas fa-caret-right faq-icon"></i>
+        </div>
+        <div class="faq-answer">
+          <p class="faq-answer-text">
+            Yes! Using the previous year's data alongside new knowledge, the team designs and builds a brand new car. While some materials can be reused, the majority of the car contains new, in-house manufactured components.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span class="faq-question-text">How fast does the car go?</span>
+          <i class="fas fa-caret-right faq-icon"></i>
+        </div>
+        <div class="faq-answer">
+          <p class="faq-answer-text">
+            Super fast.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="social-section">
+      <video class="social-video" autoplay muted loop playsinline>
+        <source src="resources/videos/Glitch_Logo.mp4" type="video/mp4" />
+      </video>
+      <h3 class="social-title"><br><br><br></h3>
+      <div class="social-icons">
+        <a href="https://www.facebook.com/soonerracingteam" target="_blank" aria-label="Facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+        <a href="https://www.instagram.com/sooner_racing/" target="_blank" aria-label="Instagram">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://www.linkedin.com/company/sooner-racing-team/posts/?feedView=all" target="_blank" aria-label="LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+        <a href="https://www.tiktok.com/@soonerracing?_t=ZP-8w8gVIcPw0U&_r=1" target="_blank" aria-label="TikTok">
+          <i class="fab fa-tiktok"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.querySelector("video").playbackRate = 1.0;
+
+    // FAQ accordion functionality
+    document.querySelectorAll('.faq-question').forEach(question => {
+      question.addEventListener('click', () => {
+        const faqItem = question.parentElement;
+        const isActive = faqItem.classList.contains('active');
+        
+        // Close all other items
+        document.querySelectorAll('.faq-item').forEach(item => {
+          item.classList.remove('active');
+        });
+        
+        // Toggle current item
+        if (!isActive) {
+          faqItem.classList.add('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

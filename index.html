@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sooner Racing Team</title>
+  
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    video {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      z-index: -1;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+      filter: brightness(0.4) contrast(1.1);
+    }
+
+    .content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: #fff;
+      padding: 1.5rem 2.5rem;
+      border: 2px solid rgba(230, 0, 0, 0.5);
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(230, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.35);
+      animation: glowPulse 3s infinite ease-in-out;
+    }
+
+    .title {
+      font-size: 2.5em;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow:
+        0 0 8px rgba(230, 0, 0, 0.8),
+        0 0 16px rgba(230, 0, 0, 0.4);
+      animation: glowPulse 3s infinite ease-in-out;
+    }
+
+    .subtitle {
+      font-size: 0.7em;
+      letter-spacing: 2px;
+      color: #ccc;
+      margin-top: 0.5em;
+      text-shadow: 
+      0 0 8px rgba(230, 0, 0, 0.8),
+      0 0 6px rgba(230, 0, 0, 0.4);
+      animation: glowPulse 3s infinite ease-in-out;
+    }
+
+    .date {
+      position: fixed;
+      top: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 2.5em;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: #fff;
+      text-transform: uppercase;
+      text-shadow:
+        0 0 8px rgba(230, 0, 0, 0.8),
+        0 0 16px rgba(230, 0, 0, 0.4);
+      opacity: 1;
+      animation: glowPulse 3s infinite ease-in-out;
+      z-index: 10;
+    }
+    .time {
+      position: fixed;
+      top: 15%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 2.5em;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: #fff;
+      text-transform: uppercase;
+      text-shadow:
+        0 0 8px rgba(230, 0, 0, 0.8),
+        0 0 16px rgba(230, 0, 0, 0.4);
+      opacity: 1;
+      animation: glowPulse 3s infinite ease-in-out;
+      z-index: 10;
+    }
+
+    .time-char {
+      display: inline-block;
+      position: relative;
+      min-width: 0.6em;
+      text-align: center;
+    }
+
+    .glitch-fragment {
+      position: absolute;
+      top: 0;
+      left: 0;
+      color: #fff;
+      text-shadow:
+        0 0 12px rgba(0, 255, 100, 0.6);
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+
+    .navbar {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      z-index: 100;
+    }
+
+    .navbar-logo {
+      height: 30px;
+      width: auto;
+      margin-right: 10px;
+    }
+
+    .navbar a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+
+    .navbar a:hover {
+      color: #e60000;
+    }
+
+    .navbar a.active {
+      color: #e60000;
+      font-weight: bold;
+      text-shadow:
+        0 0 8px rgba(230, 0, 0, 0.8),
+        0 0 16px rgba(230, 0, 0, 0.4);
+    }
+    .navbar .donate {
+      color: #e60000;
+      font-weight: bold;
+    }
+
+
+    @keyframes glowPulse {
+      0% { text-shadow: 0 0 8px rgba(230, 0, 0, 0.8), 0 0 16px rgba(230, 0, 0, 0.4); }
+      25% { text-shadow: 0 0 16px rgba(255, 40, 40, 1), 0 0 32px rgba(255, 40, 40, 0.7); }
+      50% { text-shadow: 0 0 8px rgba(230, 0, 0, 0.8), 0 0 16px rgba(230, 0, 0, 0.4); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translate(-50%, -60%); }
+      to { opacity: 1; transform: translate(-50%, -50%); }
+    }
+    @font-face {
+      font-family: 'Orbitron';
+      src: url('./Orbitron/static/Orbitron-Regular.ttf') format('woff2');
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'Orbitron';
+      src: url('./Orbitron/static/Orbitron-Bold.ttf') format('woff2');
+      font-weight: 700;
+      font-style: normal;
+    }
+  </style>
+</head>
+<body>
+<nav class="navbar">
+  <img src="resources/images/logo.png" alt="Sooner Racing Team Logo" class="navbar-logo">
+  <a href="index.html" class="active">Home</a>
+  <a href="car.html">Car</a>
+  <a href="team.html">Team</a>
+  <a href="history.html">History</a>
+  <a href="gallery.html">Gallery</a>
+  <a href="sponsors.html">Sponsors</a>
+  <a href="faq.html">FAQ</a>
+  <a href="contact.html">Contact</a>
+  <a href="donate.html" class="donate">Donate Now</a>
+</nav>
+
+  <div class="date" id="date"></div>
+  <div class="time" id="time"></div>
+
+
+  <div class="content">
+    <video autoplay muted loop playsinline>
+      <source src="resources/videos/Car_Spinning.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    <div class="title">Sooner Racing Team</div>
+    <div class="subtitle">Let's build a racecar.</div>
+  </div>
+
+<script>
+  document.querySelector("video").playbackRate = 1.0;
+
+  function setupTyping(el) {
+    const textNode = document.createTextNode("");
+
+    el.appendChild(textNode);
+
+    let currentText = "";
+    let isAnimating = false;
+
+
+    function typeDiff(newText) {
+      isAnimating = true;
+
+      let prefix = 0;
+      while (
+        prefix < currentText.length &&
+        prefix < newText.length &&
+        currentText[prefix] === newText[prefix]
+      ) {
+        prefix++;
+      }
+
+      const deletes = currentText.length - prefix;
+      const inserts = newText.slice(prefix);
+      let step = 0;
+
+      function animate() {
+        if (step < deletes) {
+          currentText = currentText.slice(0, -1);
+          textNode.textContent = currentText;
+          step++;
+          setTimeout(animate, 80);
+        } else if (step < deletes + inserts.length) {
+          currentText += inserts[step - deletes];
+          textNode.textContent = currentText;
+          step++;
+          setTimeout(animate, 80);
+        } else {
+          isAnimating = false;
+        }
+      }
+
+      animate();
+    }
+
+    return {
+      setInitial(text) {
+        currentText = text;
+        textNode.textContent = text;
+      },
+      instantUpdate(text) {
+        if (!isAnimating) {
+          currentText = text;
+          textNode.textContent = text;
+        }
+      },
+      animateTo(text) {
+        if (!isAnimating) {
+          typeDiff(text);
+        }
+      }
+    };
+  }
+
+  const dateTyper = setupTyping(document.getElementById("date"));
+
+  function getDate() {
+    return new Date().toLocaleDateString();
+  }
+
+  dateTyper.setInitial(getDate());
+
+  setInterval(() => {
+    dateTyper.animateTo(getDate());
+  }, 1000);
+
+  const timeEl = document.getElementById("time");
+  let previousTime = "";
+
+  function createFragmentedDisplay(text) {
+    timeEl.innerHTML = "";
+    for (let char of text) {
+      const span = document.createElement("span");
+      span.className = "time-char";
+      const textNode = document.createTextNode(char);
+      span.appendChild(textNode);
+      timeEl.appendChild(span);
+    }
+  }
+
+  function updateTimeGlitch() {
+    const now = new Date().toLocaleTimeString();
+    
+    if (previousTime === "") {
+      createFragmentedDisplay(now);
+      previousTime = now;
+      return;
+    }
+
+    const changedPositions = [];
+    const maxLen = Math.max(now.length, previousTime.length);
+    
+    for (let i = 0; i < maxLen; i++) {
+      if (now[i] !== previousTime[i]) {
+        changedPositions.push(i);
+      }
+    }
+
+    if (changedPositions.length === 0) {
+      return;
+    }
+
+    const chars = timeEl.querySelectorAll(".time-char");
+    let glitchStep = 0;
+    const glitchDuration = 250;
+    const glitchInterval = 30;
+    const totalSteps = glitchDuration / glitchInterval;
+
+    function glitchFrame() {
+      if (glitchStep >= totalSteps) {
+        createFragmentedDisplay(now);
+        previousTime = now;
+        return;
+      }
+
+      changedPositions.forEach(pos => {
+        if (pos < chars.length) {
+          const char = chars[pos];
+          char.innerHTML = "";
+          
+          // Create 3-5 fragments
+          const numFragments = 3 + Math.floor(Math.random() * 3);
+          
+          for (let i = 0; i < numFragments; i++) {
+            const fragment = document.createElement("span");
+            fragment.className = "glitch-fragment";
+            fragment.textContent = now[pos] || previousTime[pos];
+            
+            // Random fragment positioning
+            const offsetX = (Math.random() - 0.5) * 8;
+            const offsetY = (Math.random() - 0.5) * 12 - 30;
+            const opacity = 0.3 + Math.random() * 0.7;
+            
+            // Different clip paths for fragmentation
+            const clipPaths = [
+              `polygon(0 ${i * 25}%, 100% ${i * 25}%, 100% ${(i + 1) * 25}%, 0 ${(i + 1) * 25}%)`,
+              `polygon(0 ${i * 33}%, 100% ${i * 33}%, 100% ${(i + 1) * 33}%, 0 ${(i + 1) * 33}%)`,
+              `polygon(${i * 30}% 0, ${(i + 1) * 30}% 0, ${(i + 1) * 30}% 100%, ${i * 30}% 100%)`
+            ];
+            
+            fragment.style.clipPath = clipPaths[Math.floor(Math.random() * clipPaths.length)];
+            fragment.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+            fragment.style.opacity = opacity;
+            
+            char.appendChild(fragment);
+          }
+        }
+      });
+
+      glitchStep++;
+      setTimeout(glitchFrame, glitchInterval);
+    }
+
+    glitchFrame();
+  }
+
+  updateTimeGlitch();
+  setInterval(updateTimeGlitch, 1000);
+</script>
+
+</body>
+</html>

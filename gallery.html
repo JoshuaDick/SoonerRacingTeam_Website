@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gallery - Sooner Racing Team</title>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      background: #000;
+      font-family: 'Orbitron', sans-serif;
+      color: #fff;
+    }
+
+    video {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      z-index: -1;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+      filter: brightness(0.4) contrast(1.1);
+    }
+
+    .navbar {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      z-index: 100;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 10px 20px;
+      border-radius: 8px;
+      backdrop-filter: blur(10px);
+    }
+
+    .navbar-logo {
+      height: 30px;
+      width: auto;
+      margin-right: 10px;
+    }
+
+    .navbar a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+
+    .navbar a:hover {
+      color: #e60000;
+    }
+
+    .navbar .donate {
+      color: #e60000;
+      font-weight: bold;
+    }
+
+    .content-wrapper {
+      position: relative;
+      z-index: 1;
+      padding: 120px 20px 40px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .gallery-header {
+      text-align: center;
+      margin-bottom: 60px;
+      padding: 2rem;
+      border: 2px solid rgba(230, 0, 0, 0.5);
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(230, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.5);
+      animation: glowPulse 3s infinite ease-in-out;
+    }
+
+    .gallery-title {
+      font-size: 3em;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow:
+        0 0 8px rgba(230, 0, 0, 0.8),
+        0 0 16px rgba(230, 0, 0, 0.4);
+      margin: 0;
+      line-height: 1.2;
+    }
+
+    .gallery-subtitle {
+      font-size: 1.2em;
+      color: #ccc;
+      margin-top: 10px;
+      letter-spacing: 2px;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 15px;
+      margin-bottom: 40px;
+    }
+
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      border: 2px solid rgba(230, 0, 0, 0.3);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      background: rgba(0, 0, 0, 0.5);
+      aspect-ratio: 3/2;
+    }
+
+    .gallery-item:hover {
+      border-color: rgba(230, 0, 0, 0.8);
+      box-shadow: 0 0 30px rgba(230, 0, 0, 0.5);
+      transform: scale(1.02);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.1);
+    }
+
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lightbox.active {
+      display: flex;
+    }
+
+    .lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+      border: 3px solid rgba(230, 0, 0, 0.6);
+      border-radius: 8px;
+      box-shadow: 0 0 50px rgba(230, 0, 0, 0.5);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 30px;
+      right: 40px;
+      font-size: 3em;
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-shadow: 0 0 10px rgba(230, 0, 0, 0.8);
+    }
+
+    .lightbox-close:hover {
+      color: #e60000;
+      text-shadow: 0 0 20px rgba(230, 0, 0, 1);
+      transform: scale(1.2);
+    }
+
+    .social-section {
+      text-align: center;
+      margin: 60px 0 40px;
+      padding: 2rem;
+      border: 0px solid rgba(230, 0, 0, 0.5);
+      border-radius: 10px;
+      box-shadow: 0 0 0px rgba(230, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .social-video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      opacity: 1;
+      object-fit: cover;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .social-title,
+    .social-icons {
+      position: relative;
+      z-index: 1;
+    }
+
+    .social-title {
+      font-size: 1.5em;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #fff;
+      text-shadow:
+        0 0 8px rgba(230, 0, 0, 0.8),
+        0 0 16px rgba(230, 0, 0, 0.4);
+      margin-bottom: 1em;
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .social-icons a {
+      color: #fff;
+      font-size: 2em;
+      transition: all 0.3s;
+      text-shadow: 0 0 8px rgba(230, 0, 0, 0.6);
+    }
+
+    .social-icons a:hover {
+      color: #e60000;
+      text-shadow: 
+        0 0 16px rgba(230, 0, 0, 1),
+        0 0 32px rgba(230, 0, 0, 0.7);
+      transform: scale(1.2);
+    }
+
+    .navbar a.active {
+      color: #e60000;
+      font-weight: bold;
+      text-shadow:
+        0 0 8px rgba(230, 0, 0, 0.8),
+        0 0 16px rgba(230, 0, 0, 0.4);
+    }
+    @keyframes glowPulse {
+      0% { 
+        border-color: rgba(230, 0, 0, 0.5);
+        box-shadow: 0 0 20px rgba(230, 0, 0, 0.2);
+      }
+      50% { 
+        border-color: rgba(230, 0, 0, 0.8);
+        box-shadow: 0 0 30px rgba(230, 0, 0, 0.4);
+      }
+      100% { 
+        border-color: rgba(230, 0, 0, 0.5);
+        box-shadow: 0 0 20px rgba(230, 0, 0, 0.2);
+      }
+    }
+
+    @font-face {
+      font-family: 'Orbitron';
+      src: url('./Orbitron/static/Orbitron-Regular.ttf') format('truetype');
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'Orbitron';
+      src: url('./Orbitron/static/Orbitron-Bold.ttf') format('truetype');
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    @media (max-width: 768px) {
+      .gallery-title {
+        font-size: 2em;
+      }
+      
+      .gallery-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 10px;
+      }
+
+      .gallery-item.wide {
+        grid-column: span 1;
+      }
+      
+      .navbar {
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 0 10px;
+      }
+      
+      .navbar a {
+        font-size: 0.7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <img src="resources/images/logo.png" alt="Sooner Racing Team Logo" class="navbar-logo">
+    <a href="index.html">Home</a>
+    <a href="car.html">Car</a>
+    <a href="team.html">Team</a>
+    <a href="history.html">History</a>
+    <a href="gallery.html" class="active">Gallery</a>
+    <a href="sponsors.html">Sponsors</a>
+    <a href="faq.html">FAQ</a>
+    <a href="contact.html">Contact</a>
+    <a href="donate.html" class="donate">Donate Now</a>
+  </nav>
+
+  <div class="content-wrapper">
+    <div class="gallery-header">
+      <h1 class="gallery-title">Gallery</h1>
+      <p class="gallery-subtitle">1995 – 2025</p>
+    </div>
+
+    <div class="gallery-grid" id="galleryGrid">
+      <!-- Images will be dynamically inserted here -->
+    </div>
+
+    <div class="social-section">
+      <video class="social-video" autoplay muted loop playsinline>
+        <source src="resources/videos/Glitch_Logo.mp4" type="video/mp4" />
+      </video>
+      <h3 class="social-title"><br><br><br></h3>
+      <div class="social-icons">
+        <a href="https://www.facebook.com/soonerracingteam" target="_blank" aria-label="Facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+        <a href="https://www.instagram.com/sooner_racing/" target="_blank" aria-label="Instagram">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://www.linkedin.com/company/sooner-racing-team/posts/?feedView=all" target="_blank" aria-label="LinkedIn">
+          <i class="fab fa-linkedin"></i>
+        </a>
+        <a href="https://www.tiktok.com/@soonerracing?_t=ZP-8w8gVIcPw0U&_r=1" target="_blank" aria-label="TikTok">
+          <i class="fab fa-tiktok"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="lightbox" id="lightbox">
+    <span class="lightbox-close" id="lightboxClose">&times;</span>
+    <img src="" alt="" id="lightboxImg">
+  </div>
+
+  <script>
+    const images = [
+      '31.jpg', '1.jpg', '2.jpg', '7-1024x734.jpg', '5-1024x734.jpg', '6-1024x734.jpg',
+      '11-1024x734.jpg', '8-1024x734.jpg', '9.jpg', '10-1-1024x734.jpg', '15.jpg',
+      '14.jpg', '13.jpg', '12.jpg', 'group20001.jpg', '00car.png', '107.jpg', 'f.jpg',
+      '11-3-1024x733.jpg', '116-1024x674.jpg', 'zh-1024x619.jpg', '110-1-1024x683.jpg',
+      'OU05.jpg', 'Skid-Pad2.jpg',
+      'Pits1.jpg', '03-Car3.jpg', 'PICT0001-1024x768.jpg', 'Detroit-05-1311-1024x666.jpg',
+      'DSC00779-1024x768.jpg', '111_1179-1024x768.jpg', 'SRT-Fall-Fest-04-1-1024x768.jpg',
+      'SRT-FSAE-2004-6-1024x768.jpg', 'SRT-Publicity-Week-2-1024x768.jpg',
+      'DSC00774-1024x768.jpg', 'DSC00780-1024x768.jpg', 'first-run.1-1024x682.jpg',
+      'DSC_0122-1024x680.jpg', 'TX-AX-03-1-016-scaled-1-1024x682.jpg',
+      'sidelow-1-1024x682.jpg', 'SCCA_8.28.05_1-1.jpg', 'DSC_0094-1024x680.jpg',
+      'PICT0090-1024x768.jpg', 'IMG_0101-1024x768.jpg', 'PICT00061-1024x768.jpg',
+      '100_1558_0030-1024x683.jpg', 'IMG_01231-1024x768.jpg', 'PICT0008-1024x768.jpg',
+      'muffbattle_2.jpg', 'DSCN0818-scaled-1-1024x768.jpg', 'IMG_0123-1-1024x768.jpg',
+      'PICT0090-1-1024x768.jpg', 'MG_0137-1024x683.jpg', 'IMG_0091-1-1024x683.jpg',
+      'Cutting-SidePod-scaled-1-1024x556.jpg', 'IMG_1448-scaled-1-1024x683.jpg',
+      'IMG_20141-1024x814.jpg', 'SRT08-051.jpg', 'SRT08-081.jpg', '07lnc-1024x768.jpg',
+      'IMG_1538-scaled-1-1024x683.jpg', 'SRT08-09.jpg', 'DSC03631-1024x576.jpg',
+      'IMG_1532-scaled-1-1024x683.jpg', 'IMG_1599-scaled-1-1024x683.jpg',
+      'IMG_1552-scaled-1-1024x683.jpg', 'IMG_0807-scaled-1-1024x683.jpg',
+      'IMG_1062-scaled-1-1024x683.jpg', 'IMG_1083-scaled-1-1024x683.jpg',
+      'DSC_5159-scaled-1-681x1024.jpg', 'IMG_3383-scaled-1-1024x683.jpg',
+      'IMG_3459-scaled-1-1024x683.jpg', 'DSC_9858-scaled-1-1024x681.jpg',
+      'DSC_9455-scaled-1-1024x681.jpg', '260090_675016202006_204505350_37725613_1284244_n.jpg',
+      'DSC_9161-scaled-1-1024x681.jpg', 'DSC_9102-scaled-1-1024x681.jpg',
+      'DSC_1761-scaled-1-1024x681.jpg', 'DSC_1767-scaled1-1024x681.jpg',
+      'Natalie_Lincoln-scaled-1-1024x368.jpg', 'TEAM13-scaled-1-1024x678.jpg',
+      'IMG_4329-scaled-1-1024x683.jpg', 'IMG_3996-scaled-1-1024x683.jpg',
+      'IMG_3992-scaled-1-1024x683.jpg', 'IMG_7372-scaled-1-1024x683.jpg',
+      'IMG_4333-scaled-1-1024x683.jpg', 'IMG_7197-scaled-1-1024x683.jpg',
+      'IMG_4291-scaled-1-1024x576.jpg', 'DSC_0663-5-scaled-1-1024x683.jpg',
+      'DSC_0272-7-scaled-1-1024x683.jpg', 'DSC_0704-6-scaled-1-1024x683.jpg',
+      'DSC_0614-5-scaled-1-1024x683.jpg', 'DSC_0690-5-scaled-1-1024x683.jpg',
+      'SRT-70-3-scaled-1-1024x684.jpg', 'SRT-11-1-scaled-1-1024x684.jpg',
+      'SRT-36-1-scaled-1-1024x684.jpg', '20180610_174312800_iOS-scaled-1-1024x576.jpg',
+      '20180625_134455350_iOS-1024x683.jpg', '20180625_134440220_iOS-1024x683.jpg',
+      '20190623_032926076_iOS-1024x678.jpg', '20190622_170651510_iOS-scaled1-1024x682.jpg',
+      '20190622_155826000_iOS-scaled-1-1024x683.jpg', '20190621_184158000_iOS-1024x683.jpg',
+      '20190605_014307617_iOS1-1024x678.jpg', '20210615_032525509_iOS-scaled-1-1024x768.jpg',
+      'Screenshot-2025-08-05-225531-818x1024.png', 'Screenshot-2025-08-05-224352-1-1024x765.png',
+      'Screenshot-2025-08-05-225441-1024x618.png', 'Screenshot-2025-08-05-225359-938x1024.png',
+      'Screenshot-2025-08-05-225145-1024x1003.png', 'Screenshot-2025-08-07-195200-1024x652.png',
+      'Screenshot-2025-08-07-195032-1024x701.png', 'Screenshot-2025-08-07-194935-912x1024.png',
+      'Screenshot-2025-08-07-194843-1024x993.png', 'Screenshot-2025-08-07-194809-1024x994.png',
+      'Screenshot-2025-08-07-194713-1024x678.png', 'Screenshot-2025-08-07-194621-1024x1021.png',
+      'Screenshot-2025-08-07-195352-948x1024.png', 'Screenshot-2025-08-07-1957441-1024x698.png',
+      'Screenshot-2025-08-07-202518-1024x670.png', 'Screenshot-2025-08-07-201501-1024x675.png',
+      'Screenshot-2025-08-07-202853-1024x621.png', 'Screenshot-2025-08-07-200539-1024x707.png',
+      'Screenshot-2025-08-07-204312-1024x1018.png', 'Screenshot-2025-08-07-204119-777x1024.png',
+      '9b214c81-9db6-408e-b598-a3a1342e63f6-1024x682.jpg',
+      'Screenshot-2025-08-07-203719-1024x824.png', 'Screenshot-2025-08-07-204941-1024x755.png',
+      'bb65e2e0-9912-433f-9c5d-fe4d5d2f3bbd-1024x682.jpg',
+      'Screenshot-2025-08-07-204759-1024x702.png',
+      'fe3a75d7-72bb-4196-b458-648fa9ee51a6-1024x682.jpg',
+      '35ec1f96-2b15-402f-bd12-420bd83ab2b9-1024x682.jpg',
+      '6504dc00-54e4-4f19-b79a-9e2b7ffbb4ed-1024x682.jpg',
+      '4c7f0549-9342-4a88-b1c7-2b78fbdadf5e-1024x682.jpg',
+      '9cc40046-d304-4dd3-b420-e41447f04182-1024x682.jpg',
+      'Screenshot-2025-08-07-205041-1-1024x784.png', 'C02A9190-2-1024x683.jpg'
+    ];
+
+    const galleryGrid = document.getElementById('galleryGrid');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxClose = document.getElementById('lightboxClose');
+
+    // Create gallery items with consistent spacing
+    images.forEach((img, index) => {
+      const item = document.createElement('div');
+      item.className = 'gallery-item';
+      
+      const image = document.createElement('img');
+      image.src = `resources/images/gallery/${img}`;
+      image.alt = `Gallery image ${index + 1}`;
+      image.loading = 'lazy';
+      
+      item.appendChild(image);
+      item.addEventListener('click', () => {
+        lightbox.classList.add('active');
+        lightboxImg.src = image.src;
+      });
+      
+      galleryGrid.appendChild(item);
+    });
+
+    lightboxClose.addEventListener('click', () => {
+      lightbox.classList.remove('active');
+    });
+
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) {
+        lightbox.classList.remove('active');
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        lightbox.classList.remove('active');
+      }
+    });
+  </script>
+</body>
+</html>
